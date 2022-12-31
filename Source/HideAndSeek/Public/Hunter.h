@@ -28,6 +28,9 @@ public:
     UPROPERTY(EditAnywhere)
     double PatrolRadius = 200.f;
 
+    UPROPERTY(EditAnywhere, Category = "AI Behavior")
+    float HuntDelay;
+
 protected:
     virtual void BeginPlay() override;
 
@@ -35,4 +38,7 @@ private:
     AActor* PickRandomPatrolTarget();
     void MoveToTarget(AActor* Target);
     bool HasReachedTarget(AActor* Target);
+
+    FTimerHandle HuntTimer;
+    void StartHunt();
 };

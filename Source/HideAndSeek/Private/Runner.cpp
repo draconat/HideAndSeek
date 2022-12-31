@@ -19,6 +19,7 @@ ARunner::ARunner()
 
     GetCharacterMovement()->bOrientRotationToMovement = true;
     GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
+    GetCharacterMovement()->MaxWalkSpeed = 300.f;
 
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(GetRootComponent());

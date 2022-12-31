@@ -2,6 +2,7 @@
 
 
 #include "Hunter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "AIController.h"
 
 // Sets default values
@@ -9,6 +10,8 @@ AHunter::AHunter()
 {
     // Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
+
+    GetCharacterMovement()->MaxWalkSpeed = 300.f;
 }
 
 // Called when the game starts or when spawned
@@ -18,8 +21,7 @@ void AHunter::BeginPlay()
 
     EnemyController = Cast<AAIController>(GetController());
 
-    PatrolTarget = PickRandomPatrolTarget();
-    MoveToTarget(PatrolTarget);
+    GetWorldTimerManager().SetTimer(HuntTimer, this, &AHunter::StartHunt, HuntDelay);
 }
 
 AActor* AHunter::PickRandomPatrolTarget()
@@ -60,6 +62,12 @@ bool AHunter::HasReachedTarget(AActor* Target)
         return DistanceToTarget - PatrolRadius <= 0.001f;
     }
     return false;
+}
+
+void AHunter::StartHunt()
+{
+    PatrolTarget = PickRandomPatrolTarget();
+    MoveToTarget(PatrolTarget);
 }
 
 // Called every frame
