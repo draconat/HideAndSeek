@@ -9,6 +9,8 @@
 #include "Components/InputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "HideAndSeekHUD.h"
+#include "HideAndSeekOverlay.h"
 
 ARunner::ARunner()
 {
@@ -49,6 +51,16 @@ void ARunner::BeginPlay()
     Tags.Add(FName("Runner"));
 
     GetCapsuleComponent()->OnComponentHit.AddDynamic(this, &ARunner::OnHit);
+
+    APlayerController* PlayerController = Cast<APlayerController>(GetController());
+    if (PlayerController)
+    {
+        AHideAndSeekHUD* HideAndSeekHUD = Cast<AHideAndSeekHUD>(PlayerController->GetHUD());
+        if (HideAndSeekHUD)
+        {
+            HideAndSeekOverlay = HideAndSeekHUD->GetHideAndSeekOverlay();
+        }
+    }
 }
 
 void ARunner::Move(const FInputActionValue& Value)
@@ -74,6 +86,8 @@ void ARunner::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrim
     if (OtherActor->ActorHasTag(FName("Hunter")))
     {
         RunnerState = ERunnerState::ERS_Caught;
+        if (HideAndSeekOverlay)
+            HideAndSeekOverlay->SetGamePhase(FText::FromString(TEXT("Game Over! You've been caught!")));
         GetCharacterMovement()->DisableMovement();
     }
 }
@@ -81,7 +95,6 @@ void ARunner::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrim
 void ARunner::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
 }
 
 void ARunner::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

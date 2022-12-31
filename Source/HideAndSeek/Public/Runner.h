@@ -12,6 +12,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
+class UHideAndSeekOverlay;
 
 UCLASS()
 class HIDEANDSEEK_API ARunner : public ACharacter
@@ -40,11 +41,14 @@ protected:
 
 private:
     UPROPERTY(VisibleAnywhere)
-        USpringArmComponent* CameraBoom;
+    USpringArmComponent* CameraBoom;
 
     UPROPERTY(VisibleAnywhere)
     UCameraComponent* ViewCamera;
 
     UPROPERTY(EditAnywhere)
     ERunnerState RunnerState = ERunnerState::ERS_Running;
+
+    UPROPERTY()
+    UHideAndSeekOverlay* HideAndSeekOverlay;
 };
