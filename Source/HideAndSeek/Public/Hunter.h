@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Hunter.generated.h"
 
+class UPawnSensingComponent;
+
 UCLASS()
 class HIDEANDSEEK_API AHunter : public ACharacter
 {
