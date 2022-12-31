@@ -9,21 +9,30 @@
 UCLASS()
 class HIDEANDSEEK_API AHunter : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	AHunter();
+    AHunter();
+    virtual void Tick(float DeltaTime) override;
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+    UPROPERTY()
+    class AAIController* EnemyController;
+
+    UPROPERTY(EditInstanceOnly, Category = "AI Navigation")
+    AActor* PatrolTarget;
+
+    UPROPERTY(EditInstanceOnly, Category = "AI Navigation")
+    TArray<AActor*> PatrolTargets;
+
+    UPROPERTY(EditAnywhere)
+    double PatrolRadius = 200.f;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+private:
+    AActor* PickRandomPatrolTarget();
+    void MoveToTarget(AActor* Target);
+    bool HasReachedTarget(AActor* Target);
 };
