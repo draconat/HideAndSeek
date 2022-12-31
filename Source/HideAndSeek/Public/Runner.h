@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CharacterTypes.h"
 #include "InputActionValue.h"
 #include "Runner.generated.h"
 
@@ -34,11 +35,16 @@ protected:
 
     void Move(const FInputActionValue& Value);
 
+    UFUNCTION()
+    void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 private:
     UPROPERTY(VisibleAnywhere)
         USpringArmComponent* CameraBoom;
 
     UPROPERTY(VisibleAnywhere)
-        UCameraComponent* ViewCamera;
+    UCameraComponent* ViewCamera;
 
+    UPROPERTY(EditAnywhere)
+    ERunnerState RunnerState = ERunnerState::ERS_Running;
 };

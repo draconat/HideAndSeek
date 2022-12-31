@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CharacterTypes.h"
 #include "Hunter.generated.h"
 
 class UPawnSensingComponent;
@@ -33,14 +34,29 @@ public:
     UPROPERTY(EditAnywhere, Category = "AI Behavior")
     float HuntDelay;
 
+    UPROPERTY(VisibleAnywhere, Category = "AI Behavior")
+    AActor* HuntTarget;
+
 protected:
     virtual void BeginPlay() override;
 
+    UFUNCTION()
+    void PawnSeen(APawn* SeenPawn);
+
 private:
+    UPROPERTY(VisibleAnywhere)
+    UPawnSensingComponent* PawnSensing;
+
     AActor* PickRandomPatrolTarget();
-    void MoveToTarget(AActor* Target);
-    bool HasReachedTarget(AActor* Target);
+    void MoveToTarget(AActor* Target, float AcceptanceRadius);
+    bool TargetIsInRange(AActor* Target, double Range);
 
     FTimerHandle HuntTimer;
     void StartHunt();
+
+    UPROPERTY(EditAnywhere)
+    double HuntRadius = 500.f;
+
+    UPROPERTY(EditAnywhere)
+    EHunterState HunterState = EHunterState::EHS_Patrolling;
 };

@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
@@ -44,6 +45,10 @@ void ARunner::BeginPlay()
             Subsystem->AddMappingContext(InputContext, 0);
         }
     }
+
+    Tags.Add(FName("Runner"));
+
+    GetCapsuleComponent()->OnComponentHit.AddDynamic(this, &ARunner::OnHit);
 }
 
 void ARunner::Move(const FInputActionValue& Value)
@@ -61,6 +66,15 @@ void ARunner::Move(const FInputActionValue& Value)
 
         AddMovementInput(Direction, MovementVector.Y);
         AddMovementInput(Right, MovementVector.X);
+    }
+}
+
+void ARunner::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+    if (OtherActor->ActorHasTag(FName("Hunter")))
+    {
+        RunnerState = ERunnerState::ERS_Caught;
+        GetCharacterMovement()->DisableMovement();
     }
 }
 
