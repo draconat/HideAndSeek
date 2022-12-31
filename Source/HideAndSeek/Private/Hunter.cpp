@@ -42,7 +42,7 @@ void AHunter::PawnSeen(APawn* SeenPawn)
     if (SeenPawn->ActorHasTag(FName("Runner")))
     {
         HunterState = EHunterState::EHS_Chasing;
-        GetCharacterMovement()->MaxWalkSpeed = 600.f;
+        GetCharacterMovement()->MaxWalkSpeed = 400.f;
         HuntTarget = SeenPawn;
         MoveToTarget(HuntTarget, 0.1f);
     }

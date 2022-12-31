@@ -17,7 +17,7 @@ void UHideAndSeekOverlay::SetElapsedTime(float ElapsedTimefloat)
     if (ElapsedTime)
     {
         const int32 Minutes = floor((ElapsedTimefloat / 60.f));
-        const float Seconds = ElapsedTimefloat - Minutes;
+        const float Seconds = ElapsedTimefloat - (Minutes * 60.f);
         ElapsedTime->SetText(FText::FromString(FString::Printf(TEXT("%d:%2.3f"), Minutes, Seconds)));
     }
 }

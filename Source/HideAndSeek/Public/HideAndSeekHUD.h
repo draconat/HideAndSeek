@@ -29,7 +29,7 @@ private:
     UHideAndSeekOverlay* HideAndSeekOverlay;
 
     float ElapsedTime = 0.f;
-    float HuntDelay = 10.f; // Hunters start after 10 seconds
+    float HuntDelay = 30.f; // Hunters start after 30 seconds
     float EscapeGoal = 300.f; // Game is won after 5 minutes
     bool HuntHasStarted = false;
     bool GameIsWon = false;
